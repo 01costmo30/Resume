@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+
+    function loaderInit() {
+      document.querySelector('body').classList.add('overflow-hidden')
+
+      let imgs = document.images,
+        scripts = document.scripts,
+        c = 0,
+        ttl = imgs.length + 1 // + scripts.length
+
+      function loaderfinished() {
+        // document.querySelector('.d-flex .loader .loading-state').classList.add('ok')
+        document.querySelector('.d-flex>.loader').classList.add('complete')
+        setTimeout(() => {
+          document.querySelector('.d-flex:has(>.loader)').classList.add('fade-out')
+          document.querySelector('body').classList.remove('overflow-hidden')
+        }, 1200);
+      }
+      if (ttl == 0)
+        loaderfinished()
+
+      function Loaded(e) {
+        // console.log(e, e.currentTarget, 'ttl:', ttl, 'c:', c)
+        c += 1
+        var perc = (100 / ttl) * c
+        let hashList = document.querySelectorAll(
+          '[class*="load-"]:nth-child(-n+' + ((perc / 10) << 0) + ')'
+        )
+        for (let i = 0; i < hashList.length; i++) {
+          hashList[i].classList.add('ok')
+        }
+        if (c == ttl)
+          loaderfinished()
+      }
+
+      let Img = new Image()
+      Img.onload = Loaded
+      Img.onerror = Loaded
+      Img.src =
+        'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1400&q=80'
+
+      for (let i = 0; i < imgs.length; i++) {
+        Img = new Image()
+        Img.onload = Loaded
+        Img.onerror = Loaded
+        Img.src = imgs[i].src
+      }
+
+      // for (let i = 0; i < scripts.length; i++) {
+      //   // let sc = document.createElement('script')
+      //   let sc = scripts[i]
+      //   sc.onload = Loaded
+      //   sc.onerror = Loaded
+      //   // sc.src = scripts[i].src
+      // }
+    }
+
+    document.addEventListener('DOMContentLoaded', loaderInit, false)
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <title>陸佑函 - 個人履歷</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
